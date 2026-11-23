@@ -58,7 +58,7 @@ chat.get("/users/:id", async (c) => {
 });
 
 chat.post("/conversations/direct", async (c) => {
-  const body = await c.req.json<{ userId?: number }>().catch(() => ({}));
+  const body = (await c.req.json().catch(() => ({}))) as { userId?: number };
   const other = Number(body.userId);
   const me = c.get("uid");
   if (!Number.isSafeInteger(other) || other <= 0 || other === me) return fail(c, 400, "INVALID_USER");
@@ -116,7 +116,7 @@ chat.get("/conversations/:id/messages", async (c) => {
 chat.post("/conversations/:id/messages", async (c) => {
   const id = Number(c.req.param("id"));
   const uid = c.get("uid");
-  const body = await c.req.json<{ text?: string; replyToId?: number }>().catch(() => ({}));
+  const body = (await c.req.json().catch(() => ({}))) as { text?: string; replyToId?: number };
   const text = (body.text ?? "").trim();
   const replyTo = Number(body.replyToId);
   const replyToId = Number.isSafeInteger(replyTo) && replyTo > 0 ? replyTo : null;
@@ -139,7 +139,7 @@ chat.post("/conversations/:id/messages", async (c) => {
 
 chat.patch("/messages/:id", async (c) => {
   const id=Number(c.req.param("id")); const uid=c.get("uid");
-  const body=await c.req.json<{text?:string}>().catch(()=>({}));
+  const body=(await c.req.json().catch(()=>({}))) as {text?:string};
   const text=(body.text??"").trim();
   if(!text||text.length>4000) return fail(c,400,"INVALID_MESSAGE");
   const r=await c.env.DB.prepare("UPDATE messages SET body=?3,edited_at=?4 WHERE id=?1 AND sender_id=?2 AND deleted_at IS NULL")
@@ -191,7 +191,7 @@ chat.post("/users/:id/block", async (c) => {
 });
 
 chat.post("/reports", async (c) => {
-  const body=await c.req.json<{userId?:number;messageId?:number;reason?:string}>().catch(()=>({}));
+  const body=(await c.req.json().catch(()=>({}))) as {userId?:number;messageId?:number;reason?:string};
   const reason=(body.reason??"").trim().slice(0,500);
   const reportedId=Number(body.userId);
   if(!Number.isSafeInteger(reportedId)||reportedId<=0||!reason) return fail(c,400,"INVALID_REPORT");
@@ -215,7 +215,7 @@ chat.get("/admin/users", async (c) => {
 
 chat.post("/admin/users/:id/ban", async (c) => {
   if(!isOwner(c.env, await (await import("../settings")).getSettings(c.env), c.get("uid"))) return fail(c,403,"FORBIDDEN");
-  const id=Number(c.req.param("id")); const body=await c.req.json<{banned?:boolean}>().catch(()=>({}));
+  const id=Number(c.req.param("id")); const body=(await c.req.json().catch(()=>({}))) as {banned?:boolean};
   await c.env.DB.prepare("UPDATE users SET banned=?2 WHERE id=?1").bind(id,body.banned?1:0).run();
   return c.json({ok:true});
 });
@@ -228,7 +228,7 @@ chat.get("/admin/reports", async (c) => {
 
 chat.patch("/admin/reports/:id", async (c) => {
   if(!isOwner(c.env, await (await import("../settings")).getSettings(c.env), c.get("uid"))) return fail(c,403,"FORBIDDEN");
-  const body=await c.req.json<{status?:string}>().catch(()=>({}));
+  const body=(await c.req.json().catch(()=>({}))) as {status?:string};
   const status=body.status??"";
   if(!["reviewed","dismissed"].includes(status)) return fail(c,400,"INVALID_STATUS");
   await c.env.DB.prepare("UPDATE message_reports SET status=?2,resolved_at=?3,resolved_by=?4 WHERE id=?1").bind(Number(c.req.param("id")),status,now(),c.get("uid")).run();
