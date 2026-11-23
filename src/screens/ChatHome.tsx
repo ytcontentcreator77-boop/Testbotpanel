@@ -1,14 +1,12 @@
 import { useEffect, useState } from "preact/hooks";
 import { api } from "../api";
 import { navigate } from "../router";
-import { meStore } from "../store";
 
 type Person={id:number;firstName:string;lastName:string;username:string|null;photoUrl:string|null};
 type Chat={id:number;peerId:number|null;peerFirstName:string|null;peerLastName:string|null;peerUsername:string|null;peerPhotoUrl:string|null;lastMessage:string|null;unread:number};
-const full=(u:Person|Chat)=>`${u.firstName??u.peerFirstName??""} ${u.lastName??u.peerLastName??""}`.trim();
+const full=(u:Person|Chat)=>{const x=u as any;return `${x.firstName??x.peerFirstName??""} ${x.lastName??x.peerLastName??""}`.trim()};
 function Avatar({url,name}:{url:string|null|undefined;name:string}){return <span class="hero-avatar">{url?<img src={url} alt=""/>:name.slice(0,1).toUpperCase()||"?"}</span>}
 export function ChatHome(){
- const me=meStore.use()!;
  const [q,setQ]=useState(""); const [found,setFound]=useState<Person[]>([]); const [items,setItems]=useState<Chat[]>([]); const [busy,setBusy]=useState(false);
  const load=()=>api<{items:Chat[]}>("/chat/conversations").then(r=>setItems(r.items)).catch(()=>{});
  useEffect(()=>{load();const t=setInterval(load,7000);return()=>clearInterval(t)},[]);
