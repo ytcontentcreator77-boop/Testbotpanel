@@ -36,8 +36,6 @@ export function applyStartRoute() {
   if (deep && (location.hash === "" || location.hash === "#/")) history.replaceState(history.state, "", "#" + deep);
 }
 
-const TAB_PATHS = new Set(["/", "/contacts", "/settings"]);
-
 /** Shown until /me answers: shaped like Home (hero card, search, platform grid). */
 function AppSkeleton() {
   return (
