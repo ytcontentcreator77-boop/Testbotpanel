@@ -18,7 +18,7 @@ import { LanguagePick } from "./screens/LanguagePick";
 import { ChannelGate } from "./screens/ChannelGate";
 import { Profile } from "./screens/Profile";
 
-/** Deep links: t.me/<bot>?startapp=order_12 / s_2828 / wallet */
+/** Deep links: t.me/<bot>?startapp=chat_123 / profile / contacts */
 function routeFromStartParam(p: string | null): string | null {
   if (!p) return null;
   const chat = /^chat_(\\d+)$/.exec(p);
@@ -33,7 +33,7 @@ export function applyStartRoute() {
   if (deep && (location.hash === "" || location.hash === "#/")) history.replaceState(history.state, "", "#" + deep);
 }
 
-/** Shown until /me answers: shaped like Home (hero card, search, platform grid). */
+/** Loading state while the Telegram profile is authenticated. */
 function AppSkeleton() {
   return (
     <Screen bottom="none">
