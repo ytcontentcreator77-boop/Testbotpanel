@@ -74,10 +74,10 @@ export const en = {
 
   // Welcome
   "welcome.title": "Welcome to {brand}",
-  "welcome.subtitle": "Get followers, views and likes for Telegram, Instagram, TikTok and more, in a few taps.",
-  "welcome.f1": "Paste a link and pick what you need",
-  "welcome.f2": "Pay with Telegram Stars",
-  "welcome.f3": "Get a message here when your order is done",
+  "welcome.subtitle": "Find people, start private conversations and keep your contacts together in one place.",
+  "welcome.f1": "Find people by their Telegram username",
+  "welcome.f2": "Start private one-to-one conversations",
+  "welcome.f3": "Manage contacts and control who can reach you",
   "welcome.legal": "By continuing you agree to the {terms}.",
   "welcome.terms": "Terms of service",
   "welcome.continue": "Continue",
