@@ -2,7 +2,7 @@
 import type { Env } from "./env";
 import { isOwner } from "./env";
 import { alertAdmins } from "./alerts";
-import { getSettings, type Settings } from "./settings";
+import type { Settings } from "./settings";
 import { tg } from "./telegram";
 
 const DAY = 86400;
