@@ -1,50 +1,51 @@
-# Multi-provider SMM Telegram Mini App
+# Telegram X Hero
 
-A white-label Telegram Mini App and bot for selling social-media services through multiple standard SMM v2 API providers. The admin connects providers, imports services, configures prices and branding, and manages orders from the built-in admin panel.
+Telegram X Hero is a Telegram Mini App for private messaging, people discovery and contact management.
 
 ## Features
 
-- Telegram Mini App customer storefront, wallet, orders and profile.
-- Owner-only admin dashboard, user/order management, price rules and branding.
-- Multiple standard SMM v2 providers (API URL + key), service import by provider/category/platform, and per-order provider routing.
-- Scheduled provider order status checks; provider cancellation and refill where supported.
-- Admin configuration for service/category icons, currencies and payment methods.
-- Editable bot message templates for welcome, order lifecycle, top-ups, refunds, help and referrals.
-- Telegram Stars top-ups (the only fully implemented live payment flow).
-- Cloudflare Workers + D1 deployment.
+- Telegram Mini App authentication using signed initData
+- Automatic profile sync from Telegram
+- Search registered users by exact or partial @username and display name
+- Private one-to-one conversations
+- Message history, editing and deletion
+- Unread counts and typing status endpoints
+- Contacts and block/report tools
+- Owner-only admin overview, user moderation and report review
+- Existing Profile page retained
 
-## Requirements
+## Stack
 
-- Node.js 24 or newer
-- A Telegram bot token from [@BotFather](https://t.me/BotFather)
-- A Cloudflare account with Workers and D1 enabled
-- One or more providers that implement the common SMM v2 `key` + `action` API
+- Preact + Vite frontend
+- Hono on Cloudflare Workers
+- Cloudflare D1 database
+- Telegram Bot API for Mini App entry and webhook registration
 
-## Local setup
+## Setup
 
-1. Install dependencies with `npm ci`.
-2. Copy `.dev.vars.example` to `.dev.vars` and set `BOT_TOKEN`.
-3. Run `npm run dev`.
-4. Open the local setup page, enter the bot token, and complete the Telegram setup steps.
-5. Claim the owner account, open the Admin page in Telegram, and connect providers under **Providers**.
-6. Import services by selecting a provider, category, platform and services.
+1. Create a Telegram bot with @BotFather.
+2. Set the Worker secret `BOT_TOKEN` in Cloudflare. Never commit it to Git.
+3. Set `OWNER_IDS` to the Telegram numeric ID(s) allowed to access the admin panel.
+4. Connect the repository to Cloudflare Workers and deploy.
+5. Apply D1 migrations (the Worker also applies bundled migrations on first request).
+6. Set the Mini App URL with @BotFather and configure the bot webhook to `https://YOUR_WORKER_HOST/bot` with the webhook secret derived by this Worker.
+7. Start the bot from two Telegram accounts and open the Mini App from each account. Users become searchable after they have started the bot or opened the app at least once.
 
-## Cloudflare deployment
+## Search behavior
 
-1. Deploy the project to Cloudflare Workers.
-2. Add `BOT_TOKEN` as a Worker secret. Optionally add comma-separated `OWNER_IDS` as a variable to pre-authorize admins.
-3. Deploy the Worker and open its URL to complete the Telegram setup wizard.
-4. Claim the owner account, then connect supplier API endpoints and keys from **Admin → Providers**.
-5. Apply migrations with `npm run db:migrate:remote` if your deployment process does not apply them automatically.
-
-Provider keys are stored server-side and masked in admin responses. Never share the `.dev.vars` file or provider credentials.
+Telegram does not provide a bot with a directory of every Telegram account. A user can be found after they have started this bot or authenticated in the Mini App at least once. Search supports usernames with or without the leading `@`, plus display names. A successful lookup opens or reuses the same direct conversation for both users.
 
 ## Checks
 
 ```sh
+npm ci
 npm run typecheck
 npm test
 npm run build
 ```
 
-See [IMPLEMENTATION_STATUS.md](./IMPLEMENTATION_STATUS.md) for what is implemented and what remains intentionally unfinished.
+## Security
+
+- Keep `BOT_TOKEN` in Worker secrets, never in `wrangler.jsonc` or source control.
+- If a token was ever committed, revoke it with @BotFather and create a replacement. Removing it from the current file does not erase it from Git history.
+- Admin APIs verify the authenticated Telegram user ID on every request.
