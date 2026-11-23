@@ -66,3 +66,6 @@ CREATE TABLE typing_status (
   PRIMARY KEY (conversation_id, user_id)
 ) WITHOUT ROWID;
 CREATE INDEX typing_status_expiry ON typing_status(expires_at);
+
+CREATE INDEX users_username_nocase ON users(username COLLATE NOCASE);
+CREATE INDEX users_name_lookup ON users(first_name, last_name);
