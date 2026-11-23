@@ -4,12 +4,23 @@ import { app as profileApi } from "./routes/app";
 import { chat } from "./routes/chat";
 import { bot } from "./routes/bot";
 import { ensureSchema } from "./migrate";
+import { timingSafeEqual, webhookSecret } from "./auth";
+import { tg } from "./telegram";
 
 const app=new Hono<{Bindings:Env}>();
 app.use("*",async(c,next)=>{await ensureSchema(c.env);await next()});
 app.route("/api",profileApi);
 app.route("/api/chat",chat);
 app.route("/bot",bot);
+app.get("/setup/:secret",async c=>{
+ const expected=c.env.SETUP_SECRET??"";
+ if(!expected||!timingSafeEqual(c.req.param("secret"),expected))return c.notFound();
+ const origin=new URL(c.req.url).origin;
+ const secret=await webhookSecret(c.env);
+ await tg(c.env.BOT_TOKEN,"setWebhook",{url:origin+"/bot",secret_token:secret,allowed_updates:["message"]});
+ await tg(c.env.BOT_TOKEN,"setMyCommands",{commands:[{command:"start",description:"Open Telegram X Hero"},{command:"help",description:"How to use Telegram X Hero"}]});
+ return c.json({ok:true,webhook:origin+"/bot",message:"Webhook configured. Open your bot and press Start."});
+});
 app.onError((e,c)=>{console.error(e);return c.json({error:"INTERNAL",code:"INTERNAL"},500)});
 export default {
  fetch:app.fetch,
