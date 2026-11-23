@@ -91,7 +91,7 @@ chat.get("/conversations", async (c) => {
     LEFT JOIN messages m ON m.id=(SELECT MAX(mx.id) FROM messages mx WHERE mx.conversation_id=c.id AND mx.deleted_at IS NULL)
     LEFT JOIN conversation_members peer ON peer.conversation_id=c.id AND peer.user_id<>?1
     LEFT JOIN users other ON other.id=peer.user_id
-    WHERE cm.user_id=?1 ORDER BY COALESCE(m.created_at,c.updated_at) DESC LIMIT 100`).bind(uid).all();
+    WHERE cm.user_id=?1 AND cm.archived_at IS NULL ORDER BY COALESCE(m.created_at,c.updated_at) DESC LIMIT 100`).bind(uid).all();
   return c.json({ items: results });
 });
 
