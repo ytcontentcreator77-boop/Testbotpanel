@@ -2,7 +2,7 @@
 import { DEFAULT_PRESET, PRESET_IDS, type BrandInfo, type ButtonIcons, validButtonIcons, validCustomEmojiMap, validHexColor, validHttpsUrl } from "../shared/brand";
 import type { Settings } from "./settings";
 
-export const DEFAULT_BRAND = "NotBot";
+export const DEFAULT_BRAND = "Telegram X Hero";
 
 /** The name shown everywhere: the owner's, else the default. (Setup saves the bot's first name as the owner's name.) */
 export const brandName = (s: Pick<Settings, "brand_name">): string => s.brand_name.trim() || DEFAULT_BRAND;
