@@ -1055,3 +1055,13 @@ html[data-theme="dark"] .hero-screen{--bg:#080817;--card:#15152d;--text:#f7f5ff;
 .hero-thread-menu button{border:0;background:transparent;color:#f5f0ff;text-align:left;padding:12px;border-radius:9px;font-size:13px}
 .hero-thread-menu button:active{background:rgba(161,111,255,.16)}
 .hero-thread-menu button.danger{color:#ff91a5}
+
+.hero-premium-hero{position:relative;overflow:hidden;text-align:center;padding:32px 22px 28px;margin:12px 0 26px;border:1px solid rgba(177,126,255,.28);border-radius:24px;background:radial-gradient(ellipse at 50% 0%,rgba(151,58,255,.32),transparent 62%),linear-gradient(145deg,#211644,#111027 76%);box-shadow:0 16px 38px rgba(65,27,140,.18)}
+.hero-premium-orb{width:72px;height:72px;margin:0 auto 17px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(145deg,#c65cff,#6a31ff);font-size:34px;color:white;box-shadow:0 0 36px rgba(162,71,255,.42)}
+.hero-premium-hero>small{font-size:10px;letter-spacing:2px;color:#c7a7ff;font-weight:800}
+.hero-premium-hero h2{font-size:25px;line-height:1.15;color:#fff;margin:10px auto;max-width:280px}
+.hero-premium-hero p{font-size:13px;color:#c0b5da;line-height:1.55;max-width:280px;margin:0 auto 18px}
+.hero-coming-soon{display:inline-flex;padding:7px 12px;border-radius:99px;background:rgba(173,113,255,.16);border:1px solid rgba(194,150,255,.28);color:#d4b7ff;font-size:10px;font-weight:800;letter-spacing:1.2px}
+.hero-premium-feature{display:flex;flex-direction:column;gap:5px;padding:15px;margin:9px 0;border-radius:15px;background:linear-gradient(145deg,#191833,#121226);border:1px solid rgba(164,119,255,.16);color:#fff}
+.hero-premium-feature small{color:#aaa2c4;font-size:12px;line-height:1.45}
+.hero-premium-note{text-align:center;margin:22px auto;max-width:330px}
