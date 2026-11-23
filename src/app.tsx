@@ -13,6 +13,7 @@ import { ChatHome } from "./screens/ChatHome";
 import { Conversation } from "./screens/Conversation";
 import { Contacts } from "./screens/Contacts";
 import { ArchivedChats } from "./screens/ArchivedChats";
+import { Premium } from "./screens/Premium";
 import { ChatSettings } from "./screens/ChatSettings";
 import { HeroAdmin } from "./admin/HeroAdmin";
 import { LanguagePick } from "./screens/LanguagePick";
@@ -104,6 +105,7 @@ export function App() {
     else if (a === "chat" && b) screen = <Conversation id={Number(b)} />;
     else if (route.path === "/contacts") screen = <Contacts />;
     else if (route.path === "/archive") screen = <ArchivedChats />;
+    else if (route.path === "/premium") screen = <Premium />;
     else if (route.path === "/settings") screen = <ChatSettings />;
     else if (route.path === "/profile") screen = <Profile />;
     else if (route.path === "/admin" && me.isAdmin) screen = <HeroAdmin />;
