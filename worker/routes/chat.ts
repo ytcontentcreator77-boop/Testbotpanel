@@ -33,8 +33,8 @@ chat.get("/users/search", async (c) => {
   const raw = (c.req.query("q") ?? "").trim().slice(0, 64);
   if (raw.length < 2) return c.json({ items: [] });
   const username = cleanUsername(raw);
-  const like = `%${raw.replace(/[\\%_]/g, "\\  const like = `%${raw.replace(/[\\%_]/g, "\\$&")}%`;")}%`;
-  const usernamePrefix = username.replace(/[\\%_]/g, "\\  const like = `%${raw.replace(/[\\%_]/g, "\\$&")}%`;") + "%";
+  const like = `%${raw}%`;
+  const usernamePrefix = username + "%";
   const items = await c.env.DB.prepare(`SELECT id, first_name AS firstName, last_name AS lastName,
       username, photo_url AS photoUrl, last_seen_at AS lastSeenAt
     FROM users
