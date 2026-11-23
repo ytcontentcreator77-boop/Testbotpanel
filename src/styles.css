@@ -1050,3 +1050,8 @@ html[data-theme="dark"] .hero-screen{--bg:#080817;--card:#15152d;--text:#f7f5ff;
 .hero-messages{min-height:0}
 .hero-composer{z-index:21}
 @media(max-width:380px){.hero-archive-action{padding:8px}.hero-chat-meta small{max-width:70px}}
+
+.hero-thread-menu{position:absolute;z-index:25;top:68px;right:12px;display:flex;flex-direction:column;min-width:205px;padding:7px;background:#191833;border:1px solid rgba(164,119,255,.25);border-radius:15px;box-shadow:0 14px 35px rgba(0,0,0,.42)}
+.hero-thread-menu button{border:0;background:transparent;color:#f5f0ff;text-align:left;padding:12px;border-radius:9px;font-size:13px}
+.hero-thread-menu button:active{background:rgba(161,111,255,.16)}
+.hero-thread-menu button.danger{color:#ff91a5}
