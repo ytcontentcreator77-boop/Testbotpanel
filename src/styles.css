@@ -970,3 +970,70 @@ html[data-theme="dark"] .hero-chat-row,html[data-theme="dark"] .hero-person{bord
 
 
 .hero-message-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:6px}.hero-message-actions button{border:0;background:transparent;color:inherit;opacity:.65;font-size:10px;padding:2px 4px}.hero-open{text-align:center;padding:28px;max-width:340px}.hero-open h1{font-size:28px}.hero-open p{color:#858898;line-height:1.6}
+
+
+/* ===== TELEGRAM X HERO — visual match to approved neon-violet mockup ===== */
+.hero-screen{
+  --bg:#080817;--card:#15152d;--text:#f7f5ff;
+  position:relative;isolation:isolate;min-height:100dvh;max-width:760px;
+  padding:22px 16px calc(100px + env(safe-area-inset-bottom));
+  color:#f7f5ff;background:
+    radial-gradient(ellipse at 88% 0%,rgba(101,35,255,.20),transparent 34%),
+    radial-gradient(ellipse at 0% 52%,rgba(32,88,255,.10),transparent 38%),
+    #080817;
+}
+html[data-theme="dark"] .hero-screen{--bg:#080817;--card:#15152d;--text:#f7f5ff;color:#f7f5ff}
+.hero-top{margin:6px 2px 20px;align-items:center}
+.hero-top small{color:#a88aff;font-size:10px;letter-spacing:2.1px}
+.hero-top h1{color:#fff;font-size:29px;font-weight:800;letter-spacing:-.7px}
+.hero-icon-btn{color:#fff;background:linear-gradient(145deg,#242044,#17152f);border:1px solid rgba(164,119,255,.26);border-radius:14px;box-shadow:0 5px 22px rgba(91,36,255,.14)}
+.hero-search{color:#aaa4c9;background:#17162f;border:1px solid rgba(153,111,255,.22);border-radius:16px;box-shadow:inset 0 1px rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.16)}
+.hero-search input,.hero-composer input{color:#fff}
+.hero-search input::placeholder,.hero-composer input::placeholder{color:#827d9e}
+.hero-section{margin:22px 0}
+.hero-section h2{color:#fff;font-size:16px}
+.hero-section-head span{color:#a79fc4}
+.hero-avatar{background:linear-gradient(140deg,#1e9cff 0%,#7435ff 52%,#e34bff 100%);border:2px solid rgba(183,132,255,.72);box-shadow:0 0 16px rgba(130,67,255,.28);color:#fff}
+.hero-chat-row,.hero-person{color:#f8f6ff;border-bottom:1px solid rgba(164,137,255,.13);padding:13px 5px}
+.hero-chat-copy b,.hero-person b{color:#fff;font-weight:700}
+.hero-chat-copy small,.hero-person small,.hero-chat-meta small{color:#a29bbd}
+.hero-chat-meta em{background:linear-gradient(135deg,#8a35ff,#5725db);box-shadow:0 3px 12px rgba(117,49,255,.28)}
+.hero-person i,.hero-setting i,.hero-profile-card i{color:#b69aff}
+.hero-muted,.hero-empty p{color:#a29bbd}
+.hero-empty{background:linear-gradient(145deg,#171631,#111126);border:1px solid rgba(164,119,255,.2);border-radius:19px;color:#fff}
+.hero-empty b{color:#fff}
+.hero-tabs{background:rgba(12,11,30,.94);border-top:1px solid rgba(160,119,255,.2);backdrop-filter:blur(20px);padding-top:11px;box-shadow:0 -8px 30px rgba(0,0,0,.22)}
+.hero-tabs button{color:#8f89aa}
+.hero-tabs button.active{color:#bd91ff;text-shadow:0 0 16px rgba(160,92,255,.42)}
+.hero-tabs button.active small{color:#c5a6ff}
+.hero-thread{background:
+  radial-gradient(ellipse at 50% 0%,rgba(106,39,255,.15),transparent 40%),#080817}
+.hero-thread-head{background:rgba(18,17,42,.96);border-bottom:1px solid rgba(164,119,255,.18);color:#fff}
+.hero-thread-head>button{color:#bd91ff}
+.hero-thread-head small{color:#a69cbe}
+.hero-messages{background-image:radial-gradient(rgba(160,130,255,.045) .8px,transparent .8px);background-size:18px 18px}
+.hero-bubble{background:#1b1a37;color:#f6f3ff;border:1px solid rgba(160,130,255,.12);box-shadow:0 5px 16px rgba(0,0,0,.18)}
+.hero-bubble.mine{background:linear-gradient(135deg,#7e2dff,#5522d9);border:1px solid rgba(204,165,255,.25);color:#fff;box-shadow:0 5px 20px rgba(105,43,255,.22)}
+.hero-composer{background:rgba(14,13,34,.97);border-top:1px solid rgba(164,119,255,.2);backdrop-filter:blur(18px)}
+.hero-composer input{background:#1a1935;border:1px solid rgba(160,130,255,.15)}
+.hero-composer button{background:linear-gradient(135deg,#963cff,#5921df);box-shadow:0 5px 16px rgba(105,43,255,.3)}
+.hero-profile-card,.hero-setting{background:linear-gradient(145deg,#191833,#121226);border:1px solid rgba(164,119,255,.16);color:#f8f6ff;border-radius:16px}
+.hero-profile-card small{color:#a69cbe}
+.hero-admin-tabs{background:#121129;border:1px solid rgba(164,119,255,.18);border-radius:15px}
+.hero-admin-tabs button{color:#a49cbe}
+.hero-admin-tabs button.active{background:linear-gradient(135deg,#8c35ff,#5522d9);color:#fff;box-shadow:0 5px 18px rgba(109,40,255,.28)}
+.hero-stats>div{background:linear-gradient(145deg,#1b1a39,#121226);border:1px solid rgba(164,119,255,.18);border-radius:17px;color:#fff}
+.hero-stats small,.hero-admin-row small{color:#aaa2c4}
+.hero-stats b{color:#fff}
+.hero-admin-search{background:#191833;border:1px solid rgba(164,119,255,.18);color:#fff}
+.hero-admin-row{border-color:rgba(164,119,255,.14)}
+.hero-admin-row button,.hero-admin-report button{background:linear-gradient(135deg,#8d35ff,#5722dc);color:#fff}
+.hero-admin-report{background:linear-gradient(145deg,#191833,#121226);border:1px solid rgba(164,119,255,.16);color:#fff}
+.hero-admin-report small{color:#aaa2c4}
+.hero-message-actions button{color:#d7c9ff}
+.hero-open h1{color:#fff}
+.hero-open p{color:#aaa2c4}
+@media(min-width:600px){
+ .hero-screen:not(.hero-thread){padding-left:24px;padding-right:24px}
+ .hero-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
