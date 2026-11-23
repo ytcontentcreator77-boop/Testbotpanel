@@ -66,6 +66,6 @@ app.get("/terms",async c=>{const s=await getSettings(c.env);return c.json({terms
 app.post("/channel/verify",async c=>{
  const s=await getSettings(c.env);let result;
  try{result=await verifyChannel(c.env,s,c.get("user").id)}catch(e){if(e instanceof RetryLater)return err(c,429,"TRY_AGAIN");throw e}
- c.set("user",await c.env.DB.prepare("SELECT * FROM users WHERE id=?1").bind(c.get("user").id).first<UserRow>());
- return c.json({result,me:await meView(c)});
+ const updated=await c.env.DB.prepare("SELECT * FROM users WHERE id=?1").bind(c.get("user").id).first<UserRow>();
+ return c.json({result,me:await meView(c,updated??undefined)});
 });
