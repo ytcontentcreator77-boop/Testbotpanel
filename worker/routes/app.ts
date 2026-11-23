@@ -6,7 +6,7 @@ import type { Env } from "../env";
 import { isOwner } from "../env";
 import { brandInfo } from "../brand";
 import { getSettings } from "../settings";
-import { channelGateRequired, verifyChannel, RetryLater, rewardStars } from "../growth";
+import { channelGateRequired, verifyChannel, RetryLater } from "../growth";
 
 interface UserRow {
  id:number; first_name:string; last_name:string; username:string|null; photo_url:string|null;
