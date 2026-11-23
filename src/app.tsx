@@ -97,7 +97,7 @@ export function App() {
     key = "gate";
     screen = <ChannelGate />;
   } else {
-    const [a, b, c] = route.parts;
+    const [a, b] = route.parts;
     key = route.path + "?" + route.query;
     if (route.path === "/") screen = <ChatHome />;
     else if (a === "chat" && b) screen = <Conversation id={Number(b)} />;
