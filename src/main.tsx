@@ -9,7 +9,7 @@ import { initTelegram } from "./tg";
 initTelegram();
 applyStartRoute();
 
-// Load translations in parallel with /api/me (no English flash); the /me result still wins afterwards.
+// Load translations immediately; the authenticated profile result will select the saved language afterwards.
 void setLang(savedLang() ?? (globalThis as any).Telegram?.WebApp?.initDataUnsafe?.user?.language_code);
 
 // iOS WebKit applies :active (press states) only when the page has a touch listener.
