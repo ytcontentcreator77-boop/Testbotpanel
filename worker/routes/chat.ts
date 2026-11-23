@@ -33,7 +33,8 @@ chat.get("/users/search", async (c) => {
   const raw = (c.req.query("q") ?? "").trim().slice(0, 64);
   if (raw.length < 2) return c.json({ items: [] });
   const username = cleanUsername(raw);
-  const like = `%${raw.replace(/[\\%_]/g, "\\$&")}%`;
+  const like = `%${raw.replace(/[\\%_]/g, "\\  const like = `%${raw.replace(/[\\%_]/g, "\\$&")}%`;")}%`;
+  const usernamePrefix = username.replace(/[\\%_]/g, "\\  const like = `%${raw.replace(/[\\%_]/g, "\\$&")}%`;") + "%";
   const items = await c.env.DB.prepare(`SELECT id, first_name AS firstName, last_name AS lastName,
       username, photo_url AS photoUrl, last_seen_at AS lastSeenAt
     FROM users
@@ -44,7 +45,7 @@ chat.get("/users/search", async (c) => {
     )
     ORDER BY CASE WHEN lower(username)=?2 THEN 0 WHEN lower(username) LIKE ?3 ESCAPE '\\' THEN 1 ELSE 2 END,
       last_seen_at DESC LIMIT 30`)
-    .bind(c.get("uid"), username, username ? username + "%" : like, like).all();
+    .bind(c.get("uid"), username, username ? usernamePrefix : like, like).all();
   return c.json({ items: items.results });
 });
 
