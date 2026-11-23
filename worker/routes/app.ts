@@ -38,11 +38,11 @@ app.use("*",async(c,next)=>{
  c.set("tgUser",data.user);c.set("user",user);c.set("lang",pickLang(user.lang??user.language_code));c.set("startParam",data.startParam);
  await next();
 });
-async function meView(c:any):Promise<Me>{
- const u=c.get("user") as UserRow;const s=await getSettings(c.env);
+async function meView(c:any,userOverride?:UserRow,langOverride?:Lang):Promise<Me>{
+ const u=(userOverride??c.get("user")) as UserRow;const s=await getSettings(c.env);
  return {
   id:u.id,firstName:u.first_name,lastName:u.last_name,username:u.username,photoUrl:u.photo_url,
-  lang:c.get("lang"),langChosen:u.lang!==null,balance:u.balance??0,notify:!!u.notify,canMessage:!!u.can_message,
+  lang:langOverride??c.get("lang"),langChosen:u.lang!==null,balance:u.balance??0,notify:!!u.notify,canMessage:!!u.can_message,
   termsAccepted:!!u.terms_accepted_at,isAdmin:isOwner(c.env,s,u.id),
   starsPerUsd:s.stars_per_usd,minTopup:s.min_topup_stars,maxTopup:s.max_topup_stars,
   supportUsername:s.support_username||null,channelUrl:s.channel_url||null,
@@ -59,7 +59,7 @@ app.patch("/me",async c=>{
  if(body.notify!==undefined)sets.push("notify="+(body.notify?1:0));
  if(body.canMessage)sets.push("can_message=1");
  if(body.acceptTerms)sets.push(`terms_accepted_at=COALESCE(terms_accepted_at,${now()})`);
- if(sets.length){await c.env.DB.prepare(`UPDATE users SET ${sets.join(",")} WHERE id=?`).bind(...vals,u.id).run();c.set("user",await c.env.DB.prepare("SELECT * FROM users WHERE id=?1").bind(u.id).first<UserRow>());c.set("lang",pickLang((c.get("user") as UserRow).lang??(c.get("user") as UserRow).language_code))}
+ if(sets.length){await c.env.DB.prepare(`UPDATE users SET ${sets.join(",")} WHERE id=?`).bind(...vals,u.id).run();const updated=await c.env.DB.prepare("SELECT * FROM users WHERE id=?1").bind(u.id).first<UserRow>();if(updated)return c.json(await meView(c,updated,pickLang(updated.lang??updated.language_code)))}
  return c.json(await meView(c));
 });
 app.get("/terms",async c=>{const s=await getSettings(c.env);return c.json({terms:s.terms_text||"Telegram X Hero community guidelines."})});
