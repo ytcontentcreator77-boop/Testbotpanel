@@ -95,6 +95,31 @@ chat.get("/conversations", async (c) => {
   return c.json({ items: results });
 });
 
+chat.get("/conversations/archived", async (c) => {
+  const uid=c.get("uid");
+  const {results}=await c.env.DB.prepare(`SELECT c.id,c.kind,c.title,c.updated_at AS updatedAt,
+    m.body AS lastMessage,m.created_at AS lastMessageAt,
+    other.id AS peerId,other.first_name AS peerFirstName,other.last_name AS peerLastName,
+    other.username AS peerUsername,other.photo_url AS peerPhotoUrl
+    FROM conversation_members cm JOIN conversations c ON c.id=cm.conversation_id
+    LEFT JOIN messages m ON m.id=(SELECT MAX(mx.id) FROM messages mx WHERE mx.conversation_id=c.id AND mx.deleted_at IS NULL)
+    LEFT JOIN conversation_members peer ON peer.conversation_id=c.id AND peer.user_id<>?1
+    LEFT JOIN users other ON other.id=peer.user_id
+    WHERE cm.user_id=?1 AND cm.archived_at IS NOT NULL
+    ORDER BY cm.archived_at DESC LIMIT 100`).bind(uid).all();
+  return c.json({items:results});
+});
+
+chat.patch("/conversations/:id/archive", async (c) => {
+  const id=Number(c.req.param("id")); const uid=c.get("uid");
+  const body=(await c.req.json().catch(()=>({}))) as {archived?:boolean};
+  if(!Number.isSafeInteger(id)||id<=0||typeof body.archived!=="boolean") return fail(c,400,"INVALID_ARCHIVE_STATE");
+  const stamp=body.archived?now():null;
+  const r=await c.env.DB.prepare("UPDATE conversation_members SET archived_at=?3 WHERE conversation_id=?1 AND user_id=?2")
+    .bind(id,uid,stamp).run();
+  return r.meta.changes?c.json({ok:true,archived:body.archived}):fail(c,404,"CONVERSATION_NOT_FOUND");
+});
+
 chat.get("/conversations/:id/messages", async (c) => {
   const id = Number(c.req.param("id"));
   const uid = c.get("uid");
