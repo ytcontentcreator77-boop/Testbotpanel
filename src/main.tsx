@@ -4,7 +4,7 @@ import "./art"; // registers the empty-state art with ui.tsx
 import { App, applyStartRoute } from "./app";
 import { keyboardStore } from "./store";
 import { savedLang, setLang } from "./i18n";
-import { initData, initTelegram } from "./tg";
+import { initTelegram } from "./tg";
 
 initTelegram();
 applyStartRoute();
