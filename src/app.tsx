@@ -17,7 +17,6 @@ import { HeroAdmin } from "./admin/HeroAdmin";
 import { LanguagePick } from "./screens/LanguagePick";
 import { ChannelGate } from "./screens/ChannelGate";
 import { Profile } from "./screens/Profile";
-import { LazyPublicPages } from "./lazy";
 
 /** Deep links: t.me/<bot>?startapp=order_12 / s_2828 / wallet */
 function routeFromStartParam(p: string | null): string | null {
@@ -78,7 +77,7 @@ export function App() {
   } else if (outside || (import.meta.env.DEV && route.path === "/__public")) {
     // (Dev only: #/__public previews the setup wizard / "open in Telegram" page while signed in as the dev user.)
     key = "public";
-    screen = <LazyPublicPages />;
+    screen = <Screen bottom="none" center><div class="hero-open"><h1>Telegram X Hero</h1><p>Open this Mini App from its Telegram bot to sign in securely.</p></div></Screen>;
   } else if (error) {
     key = "error";
     screen = (
