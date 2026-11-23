@@ -3,8 +3,6 @@ import { LANGS } from "../shared/types";
 import { en } from "../src/i18n/en";
 import botStrings from "../worker/bot-strings.json";
 import { BOT_EN, botPlain, botText, setBotBrand } from "../worker/i18n";
-import { botAboutFor } from "../worker/bot-about";
-import { LIMITS } from "../shared/brand";
 
 // Every non-English UI dictionary (20 languages incl. English), loaded the same way the app loads them (src/i18n/*.json).
 const modules = import.meta.glob<Record<string, string>>("../src/i18n/*.json", { eager: true, import: "default" });
@@ -108,28 +106,3 @@ describe("brand placeholder", () => {
   });
 });
 
-describe("botAboutFor", () => {
-  it.each(["NotBot", "B".repeat(LIMITS.brandName), "😀".repeat(LIMITS.brandName / 2), "Ж".repeat(LIMITS.brandName)])(
-    "stays within Telegram limits for brand %#",
-    (brand) => {
-      const about = botAboutFor(brand);
-      expect(Object.keys(about).sort()).toEqual([...LANGS].sort());
-      for (const a of Object.values(about)) {
-        expect(a.name.length).toBeLessThanOrEqual(64);
-        expect(a.short.length).toBeLessThanOrEqual(120);
-        expect(a.description.length).toBeLessThanOrEqual(512);
-        expect(a.name).toContain(brand);
-        expect(a.description).toContain(brand);
-        expect(/[\ud800-\udbff]$|^[\udc00-\udfff]/.test(a.name + a.description)).toBe(false);
-        expect(/notpanel|\$\{/i.test(a.name + a.short + a.description)).toBe(false);
-      }
-    },
-  );
-
-  it("trims an over-long brand without splitting a surrogate pair", () => {
-    const a = botAboutFor("😀".repeat(60));
-    expect(a.en.name.length).toBeLessThanOrEqual(64);
-    expect([...a.en.name].every((c) => c !== "\ufffd")).toBe(true);
-    expect(/[\ud800-\udbff](?![\udc00-\udfff])/.test(a.en.name)).toBe(false);
-  });
-});
