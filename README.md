@@ -24,7 +24,7 @@ Telegram X Hero is a Telegram Mini App for private messaging, people discovery a
 ## Setup
 
 1. Create a Telegram bot with @BotFather.
-2. Set the Worker secret `BOT_TOKEN` in Cloudflare. Never commit it to Git.
+2. Set the Worker secrets `BOT_TOKEN` and `SETUP_SECRET` in Cloudflare. Never commit either secret to Git.
 3. Set `OWNER_IDS` to the Telegram numeric ID(s) allowed to access the admin panel.
 4. Connect the repository to Cloudflare Workers and deploy.
 5. Apply D1 migrations (the Worker also applies bundled migrations on first request).
