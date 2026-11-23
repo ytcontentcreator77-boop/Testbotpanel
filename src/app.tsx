@@ -21,11 +21,9 @@ import { Profile } from "./screens/Profile";
 /** Deep links: t.me/<bot>?startapp=order_12 / s_2828 / wallet */
 function routeFromStartParam(p: string | null): string | null {
   if (!p) return null;
-  let m = /^order_(\d+)$/.exec(p);
-  if (m) return `/order/${m[1]}`;
-  m = /^s_(\d+)$/.exec(p);
-  if (m) return `/s/${m[1]}`;
-  if (p === "wallet" || p === "orders" || p === "profile") return `/${p}`;
+  const chat = /^chat_(\\d+)$/.exec(p);
+  if (chat) return `/chat/${chat[1]}`;
+  if (p === "profile" || p === "contacts") return `/${p}`;
   return null;
 }
 
