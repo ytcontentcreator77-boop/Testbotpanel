@@ -1,11 +1,9 @@
-// Urgent problems the owner must fix (bot not admin in the update channel, a supplier refusing orders, low supplier
-// balance, price sync failing) are sent to every admin in the bot. Each kind is sent at most once per 6 hours.
-// English only, like the admin panel.
+// Channel-configuration warnings for the Telegram X Hero owner.
 import { type Env, ownerIds } from "./env";
 import { getSettings, setSettings } from "./settings";
 import { tg, webAppButton } from "./telegram";
 
-export type AlertKind = "channel" | "provider" | "low_balance" | "sync" | "no_answer";
+export type AlertKind = "channel";
 const EVERY = 6 * 3600;
 
 /** Sends `text` (HTML) to all admins unless the same kind was sent in the last 6 hours. Never throws. */
