@@ -14,6 +14,7 @@ import { pollOpenOrders } from "./orders";
 import { cleanupPendingPayments } from "./payments";
 import { admin } from "./routes/admin";
 import { app as api } from "./routes/app";
+import { chat } from "./routes/chat";
 import { bot } from "./routes/bot";
 import { cleanupWebhookEvents, hooks } from "./routes/hooks";
 import { broadcastTick } from "./broadcast";
@@ -38,6 +39,7 @@ const setupOk = (env: Env, given: string) => !!env.SETUP_SECRET && timingSafeEqu
 app.route("/api", pub);
 app.route("/api/setup", setup);
 app.route("/api", api);
+app.route("/api/chat", chat);
 app.get("/media/:kind", (c) => mediaResponse(c.env, c.req.param("kind"), c.req.query("v")));
 app.route("/bot", bot);
 app.route("/hooks", hooks);
