@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { api } from "../api";
 import { back } from "../router";
 import { meStore } from "../store";
-import { HeroTabs } from "./ChatHome";
 type Msg={id:number;senderId:number;body:string;createdAt:number;editedAt:number|null;senderFirstName:string};
 export function Conversation({id}:{id:number}){
  const me=meStore.use()!;const [items,setItems]=useState<Msg[]>([]);const [text,setText]=useState("");const [peer,setPeer]=useState<any>(null);const [typing,setTyping]=useState(false);const bottom=useRef<HTMLDivElement>(null);const lastTyping=useRef(0);
