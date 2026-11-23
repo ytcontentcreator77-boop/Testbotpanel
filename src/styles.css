@@ -1037,3 +1037,16 @@ html[data-theme="dark"] .hero-screen{--bg:#080817;--card:#15152d;--text:#f7f5ff;
  .hero-screen:not(.hero-thread){padding-left:24px;padding-right:24px}
  .hero-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
+
+.hero-head-actions{display:flex;gap:9px;align-items:center}
+.hero-chat-wrap{display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(164,137,255,.13)}
+.hero-chat-wrap .hero-chat-row{flex:1;border-bottom:0;min-width:0}
+.hero-archive-action,.hero-restore{flex:none;border:1px solid rgba(164,119,255,.22);background:#191833;color:#c4a5ff;border-radius:12px;padding:9px 12px;font-size:12px;font-weight:700}
+.hero-archive-row{display:flex;align-items:center;gap:8px;margin:7px 0;padding:4px 7px 4px 0;background:linear-gradient(145deg,#171631,#111126);border:1px solid rgba(164,119,255,.16);border-radius:16px}
+.hero-archive-row .hero-chat-row{flex:1;border:0;min-width:0;padding-left:10px}
+.hero-restore:disabled{opacity:.55}
+.hero-thread{max-width:760px;margin:0 auto;position:relative}
+.hero-thread-head{flex:none}
+.hero-messages{min-height:0}
+.hero-composer{z-index:21}
+@media(max-width:380px){.hero-archive-action{padding:8px}.hero-chat-meta small{max-width:70px}}
