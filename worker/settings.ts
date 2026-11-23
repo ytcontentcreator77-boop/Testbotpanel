@@ -25,9 +25,8 @@ export const DEFAULTS = {
   referral_reward_stars: 3,
   referral_daily_cap: 50,
   terms_text:
-    "By using this app you agree that services are delivered by third parties and delivery times are estimates. " +
-    "Balance top-ups are paid in Telegram Stars and are credited to your in-app balance. Orders that cannot be " +
-    "delivered are refunded to your balance automatically.",
+    "Use Telegram X Hero respectfully. Do not send spam, threats, illegal content or abuse other users. " +
+    "You can block users and report harmful messages. Messages and profile details are stored to provide the service.",
   last_sync_at: 0,
   last_sync_summary: "",
   sync_state: "",

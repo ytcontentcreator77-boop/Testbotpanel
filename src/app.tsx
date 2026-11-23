@@ -6,32 +6,26 @@ import { setLang, useLang } from "./i18n";
 import { useRoute } from "./router";
 import { meStore } from "./store";
 import { inTelegram, startParam } from "./tg";
-import { ErrorState, Screen, Skeleton, SkeletonGrid, TabBar, Toasts } from "./ui";
+import { ErrorState, Screen, Skeleton, SkeletonGrid, Toasts } from "./ui";
 import { ArtGallery } from "./art";
 import { Welcome } from "./screens/Welcome";
+import { ChatHome } from "./screens/ChatHome";
+import { Conversation } from "./screens/Conversation";
+import { Contacts } from "./screens/Contacts";
+import { ArchivedChats } from "./screens/ArchivedChats";
+import { Premium } from "./screens/Premium";
+import { ChatSettings } from "./screens/ChatSettings";
+import { HeroAdmin } from "./admin/HeroAdmin";
 import { LanguagePick } from "./screens/LanguagePick";
 import { ChannelGate } from "./screens/ChannelGate";
-import { Invite } from "./screens/Invite";
-import { Home } from "./screens/Home";
-import { Categories } from "./screens/Categories";
-import { Services } from "./screens/Services";
-import { OrderForm } from "./screens/OrderForm";
-import { OrderPlaced } from "./screens/OrderPlaced";
-import { Orders } from "./screens/Orders";
-import { OrderDetail } from "./screens/OrderDetail";
-import { Wallet } from "./screens/Wallet";
-import { TopUp } from "./screens/TopUp";
 import { Profile } from "./screens/Profile";
-import { LazyAdminRoutes, LazyPublicPages } from "./lazy";
 
-/** Deep links: t.me/<bot>?startapp=order_12 / s_2828 / wallet */
+/** Deep links: t.me/<bot>?startapp=chat_123 / profile / contacts */
 function routeFromStartParam(p: string | null): string | null {
   if (!p) return null;
-  let m = /^order_(\d+)$/.exec(p);
-  if (m) return `/order/${m[1]}`;
-  m = /^s_(\d+)$/.exec(p);
-  if (m) return `/s/${m[1]}`;
-  if (p === "wallet" || p === "orders" || p === "profile") return `/${p}`;
+  const chat = /^chat_(\\d+)$/.exec(p);
+  if (chat) return `/chat/${chat[1]}`;
+  if (p === "profile" || p === "contacts") return `/${p}`;
   return null;
 }
 
@@ -41,9 +35,7 @@ export function applyStartRoute() {
   if (deep && (location.hash === "" || location.hash === "#/")) history.replaceState(history.state, "", "#" + deep);
 }
 
-const TAB_PATHS = new Set(["/", "/orders", "/wallet", "/profile"]);
-
-/** Shown until /me answers: shaped like Home (hero card, search, platform grid). */
+/** Loading state while the Telegram profile is authenticated. */
 function AppSkeleton() {
   return (
     <Screen bottom="none">
@@ -78,7 +70,6 @@ export function App() {
   // Each route change remounts the screen (keyed), so it plays the enter animation picked by the router (html[data-nav]).
   let key: string;
   let screen: JSX.Element;
-  let tabs = false;
   if (import.meta.env.DEV && route.path === "/__art") {
     // Dev-only art gallery (spec §8.3); not linked anywhere.
     key = "__art";
@@ -86,7 +77,7 @@ export function App() {
   } else if (outside || (import.meta.env.DEV && route.path === "/__public")) {
     // (Dev only: #/__public previews the setup wizard / "open in Telegram" page while signed in as the dev user.)
     key = "public";
-    screen = <LazyPublicPages />;
+    screen = <Screen bottom="none" center><div class="hero-open"><h1>Telegram X Hero</h1><p>Open this Mini App from its Telegram bot to sign in securely.</p></div></Screen>;
   } else if (error) {
     key = "error";
     screen = (
@@ -108,28 +99,22 @@ export function App() {
     key = "gate";
     screen = <ChannelGate />;
   } else {
-    const [a, b, c] = route.parts;
+    const [a, b] = route.parts;
     key = route.path + "?" + route.query;
-    tabs = TAB_PATHS.has(route.path);
-    if (route.path === "/") screen = <Home />;
-    else if (a === "p" && b && c) screen = <Services platform={b} category={c} />;
-    else if (a === "p" && b) screen = <Categories platform={b} />;
-    else if (a === "s" && b) screen = <OrderForm serviceId={Number(b)} query={route.query} />;
-    else if (a === "placed" && b) screen = <OrderPlaced orderId={Number(b)} />;
-    else if (route.path === "/orders") screen = <Orders />;
-    else if (a === "order" && b) screen = <OrderDetail orderId={Number(b)} />;
-    else if (route.path === "/wallet") screen = <Wallet />;
-    else if (route.path === "/topup") screen = <TopUp />;
+    if (route.path === "/") screen = <ChatHome />;
+    else if (a === "chat" && b) screen = <Conversation id={Number(b)} />;
+    else if (route.path === "/contacts") screen = <Contacts />;
+    else if (route.path === "/archive") screen = <ArchivedChats />;
+    else if (route.path === "/premium") screen = <Premium />;
+    else if (route.path === "/settings") screen = <ChatSettings />;
     else if (route.path === "/profile") screen = <Profile />;
-    else if (route.path === "/invite") screen = <Invite />;
-    else if (a === "admin" && me.isAdmin) screen = <LazyAdminRoutes parts={route.parts.slice(1)} query={route.query} />;
-    else screen = <Home />;
+    else if (route.path === "/admin" && me.isAdmin) screen = <HeroAdmin />;
+    else screen = <ChatHome />;
   }
 
   return (
     <>
       <Fragment key={key}>{screen}</Fragment>
-      {tabs ? <TabBar /> : null}
       <Toasts />
     </>
   );

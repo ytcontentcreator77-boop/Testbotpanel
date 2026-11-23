@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "multi-provider-smm",
+  "name": "telegram-x-hero",
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-12",
   "observability": { "enabled": true },
@@ -17,13 +17,9 @@
       "migrations_dir": "migrations"
     }
   ],
-  // Every minute: command menus and broadcasts; every 3 minutes the provider order status backup check,
-  // every 5 minutes the channel re-check for referrals.
-  // At minute :07 of each hour it also runs cleanup (old webhook events, stale pending payments).
+  // Expired typing indicators are cleaned up on the scheduled run.
   "triggers": { "crons": ["* * * * *"] },
    "vars": {
-    "BOT_TOKEN": "8516059761:AAGJn6GuFCLPXFdoDCTwPuh_ipc0zEPswrc",
-    "DEV_FAKE_USER_ID": "",
     "OWNER_IDS": "7062424671"
   }
 }

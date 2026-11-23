@@ -1,0 +1,5 @@
+import { useEffect,useState } from "preact/hooks";
+import { api } from "../api";
+import { navigate } from "../router";
+import { HeroTabs } from "./ChatHome";
+export function Contacts(){const [items,setItems]=useState<any[]>([]);useEffect(()=>{api<{items:any[]}>("/chat/contacts").then(r=>setItems(r.items)).catch(()=>{})},[]);return <main class="hero-screen"><header class="hero-top"><div><small>TELEGRAM X HERO</small><h1>Contacts</h1></div><button class="hero-icon-btn" onClick={()=>navigate("/")}>⌕</button></header>{items.length?items.map(u=><button class="hero-person" onClick={()=>api<{conversationId:number}>("/chat/conversations/direct",{method:"POST",body:{userId:u.id}}).then(r=>navigate("/chat/"+r.conversationId))}><span class="hero-avatar">{u.firstName?.slice(0,1)||"?"}</span><span><b>{u.firstName} {u.lastName}</b><small>@{u.username||"user"}</small></span><i>Message ›</i></button>):<div class="hero-empty"><b>Your contacts will appear here</b><p>Search for people from the Chats tab and add them to contacts.</p></div>}<HeroTabs active="contacts"/></main>}
